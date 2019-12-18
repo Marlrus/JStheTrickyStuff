@@ -190,7 +190,29 @@
                 <li class="list-group-item align-middle">
                     <h3 class="subtitle">Introduction</h3>
                     <p class="paragraph">
-                 
+                        Object Oriented Programming (OOP) is a programming model based around the idea of objects and blueprints that make objects. These blueprints are called "classes". We call objects created from classes "instances". We strive to make our classes abstract and modular so that we can reuse them easily and share them amongst other parts of the program. *JS did not have "classes" built into it at the time of this video.* To mimic this we use functions and objects. 
+                    </p>
+                    <p class="paragraph">
+                        <strong>Constructor functions and "new"</strong>
+                        <br>
+                        <strong>FILE:</strong> <a href="./8constructors.js">8constructors</a>
+                        <br>
+                        This is the function that is used as a blueprint for what each object should be. Convention has it that constructor functions are Capitalized. <strong>new</strong> must be used with a function or we will get a type error. The first thing "new" does is create an empty object. Second, it sets the keyword "this" to be that empty object. Third, it adds the line <code>return this</code> to the end of the function. Fourth, it adds a property onto the empty object called "__proto__"(Double underscores on each side commonly known as "dunder") which links the prototype property on the constructor function to the empty object (more later). We do an exercise that creates a constructor for dog with name, age, and a function bark that logs "dogName just barked". The result is in the file 8constructors.
+                    </p>
+                </li>
+                <li class="list-group-item align-middle">
+                    <h3 class="subtitle">Multiple Constructors</h3>
+                    <p class="paragraph">
+                        We can add methods to our objects inside of the constructor function.
+                        <br>
+                        <strong>FILE:</strong> <a href="./9multipleConstructors.js">9multipleConstructors</a>
+                        <br>
+                        We have two constructors, one for Car and one for Motorcycle, they are very similar and you want to use the same code inside both of them. We do this by refactoring using call+apply. We have the Car constructor which takes 3 arguments and has a fixed this.numWheels value. We make a Motorcycle constructor that has the same 3 arguments but numWheels is different. To refactor this we can call the Car constructor inside the Motorcycle constructor to fill in the first 3 arguments. However, if we run Car inside Motorcycle we would need to pass the arguments used in our Motorcycle constructor. We use <code>Car.call(this,make,model,year)</code> inside our Motorcycle constructor. We can invoke the Car constructor, however the keyword "this" inside car is not the "this" we want it to use. Therefore we set it as the first parameter of .call(). We change the "this" context of Car from the this of the Car function, and set it to the object created when we invoke <code>new Motorcycle</code> Using "this" will achieve that because when we run <code>var motorcycle1 = new Motorcycle("Ducati","Scrambler","2017")</code> the "new" keyword places the this for everything inside the Motorcycle function as motorcycle1. 
+                    </p>
+                    <p class="pargraph">
+                        <strong>Using apply() and "arguments"</strong>
+                        <br>
+                        So we refactored using call() and we reused the Car constructor in our code. We can use apply() which has the same first argument that sets the this context, but it takes an array as a second argument instead of individual arguments. We just alter the code to <code>Car.apply(this, [make,model,year])</code> which will take the arguments we pass and pass them as an array foru apply(). The final refactor is using the <em><strong>arguments</strong></em> keyword. Arguments takes the arguments of a function and turns them into an array with a couple of more things. Using <code>Car.apply(this, arguments)</code> the constructor will take the arguments and transform them into an array we can pass into the Car.apply() function. Since we are not using the arguments for anything, we can also remove them from our declaration to <code>function MotorcycleAppArg(){</code>. <strong>Note:</strong> all of the functions where called using <code>var varName = new functionName("value1","value2","value3")</code> and then logged with <code>console.log(varName)</code>
                     </p>
                 </li>
             </ol>
