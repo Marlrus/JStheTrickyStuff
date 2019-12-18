@@ -134,6 +134,35 @@
                         We used the person object with the nested dog object. We ran the function that returned undefined because this was referring to the dog object and added call() <code>console.log(person.dog.sayHello.call(person))</code> this returned what we wanted: "Hello Colt". We can do that to any function that uses this and alter the context of this for that function. In the second example we created two objects: colt and elie. Each of them had a sayHi method inside that returned Hi and the this.firstName value inside each object. We removed the method from "elie" but called it using the elie object as context through <code>colt.sayHi.call(elie)</code> which ran the method inside colt using elie as a context and returned "Hi Elie".
                     </p>
                 </li>
+                <li class="list-group-item allign-middle">
+                    <h3 class="subtitle">Using apply()</h3>
+                    <p class="paragraph">
+                        Almost identical to call - except the parameters
+                        <br>
+                        <strong>FILE:</strong> <a href="./4apply.js">4apply</a>
+                        <br>
+                        Apply works just the same as call() with the exception that we are now using two parameters, the first one to set the "this" context, and the second the array of parameters we are passing to the function. We create a function, addNumbers that takes 4 parameters and returns a message using this.firstName and adding the 4 parameters. We change the name using call first with <code>.call(elie,1,2,3,4)</code> and then using add with <code>.add(elie,[1,2,3,4])</code> and we get the same return: "Elie just calculated 10"
+                    </p>
+                </li>
+                <li class="list-group-item allign-middle">
+                    <h3 class="subtitle">Using bind()</h3>
+                    <p class="paragraph">
+                        Params work like call, but bind returns a function with the context of "this" bound already!
+                        <br>
+                        <strong>FILE:</strong> <a href="./5bind.js">5bind</a>
+                        <br>
+                        We assign the binded function to a var <code>var elieCalc = colt.addNumbers.bind(elie,1,2,3,4)</code> which we can now call using <code>elieCalc()</code>. This will return addNumbers() but with elie set as the context of "this". We don't need to know all the arguments of a function up front, this is called <em><u>partial application</u></em> In our example, addNumbers(a,b,c,d) takes 4 arguments. We can set bind without the full parameters: <code>var elieCalc2 = colt.addNumbers.bind(elie,1,2)</code> which will bind the context "this" on ellieCalc2 to "elie". This is the <em>MANDATORY</em> param in this function. We can set all 4 params or none and still call it. In our case we call <code>elieCalc(3,4)</code> which returns "Ellie just calculated 10" because it took params a and b from the declaration and c and d from the application. 
+                        <br>
+                        <strong>NOTE:</strong> setTimeout() is a method in <em><u>the global object</u></em> that lets us postpone the execution of some code by a set amount of ms. <code>setTimeout(codeToPostpone,ms)</code> While the code is being ran our code is not blocked. This is asyncronous execution.
+                    </p>
+                    <p class="paragraph">
+                        <strong>Bind in the wild</strong>
+                        <br>
+                        <strong>FILE:</strong> <a href="./6bind2.js">6bind2</a>
+                        <br>
+                        We create a setTimeout() inside the colt.sayHi() that logs our "Hi this.firstName" that sends the log 1000ms after the execution. This is tricky because "this" does not refer to the colt object, it refers to the <em>global object</em> because setTimeout is the function being executed, and its parent object is <em>the global object</em> the context of this is the global object. To solve this we can explicitly set what we want the keyword "this" to refer to.
+                    </p>
+                </li>
             </ol>
 
     </div>
