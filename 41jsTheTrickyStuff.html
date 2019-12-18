@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- Font-awesome CDN -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
+    <style>
+    code{
+        background-color: rgba(0,0,0,.075);
+        font-weight: bold;
+    }
+    .subtitle{
+        font-size: 1.3rem;
+        font-weight: bold;
+        margin: 0;
+        padding: 5px;
+        margin-top: 5px;
+        background-color: rgba(0,0,0,.075);
+        text-align: center;
+    }
+    h3{
+        font-size: 2rem;
+        font-weight: bold;
+        margin: 0;
+        padding: 5px;
+        margin-top: 10px;
+    }
+    .paragraph{
+        margin: 0.5rem 0 0.5rem;
+    }
+    .tab{
+        margin: 0 1rem;
+    }
+    </style>
+
+    <title>JS The Tricky Stuff</title>
+</head>
+
+<body>
+    <!-- SHORTCUTS CTRL+K+C "comment" CTRL+SHIFT+K "Kill Line" CTRK+F2 "Change all occurances" SHIFT+ALT+DOWN "Duplicate selection" CTRL+k+CTRL+F "format selection Shift+Tab "outdent" -->
+    
+    <div class="container mb-5">
+	
+        <h1 class="display-3 text-center m-4">JS The Tricky Stuff<hr></h1>
+        
+
+        <h2 class="display-4 text-center m-4">The Keyword This<hr></h2>
+            <!-- <p class="text-center mt-3"> <strong>Module Objectives </p></strong> -->
+            <ol class="list-group">
+                <li class="list-group-item align-middle">
+                    <h3 class="subtitle">Rule 1 GLOBAL</h3>
+                    <p class="paragraph">
+                        "this" is a reserved keyword in JS, this means that you can not set it as the value of any variable. The value of "this" is determined by <em>how</em> a function is called, know as <em>execution context</em>. Can be determined using 4 rules (global,object/implicit,explicit,new).
+                    </p>
+                    <p class="paragraph">
+                        <strong>FILE:</strong> <a href="./1globalContext.js" target="_blank">1globalContext.js</a>. 
+                        <br>
+                        When "this" is called outside of a function, it refers to the global object. In the case of a browser that is the <em>window</em> object. Any time we call "this" outside of a declared object, it refers to the global object. Even if we run it inside a function with no object, it will return the global object. We don't want to accidentally create variables in the global object, whcih is pretty easy to do by mistake. If we run a function with <code>this.keyName = value</code> and run it, we would have added that variable to the global scope. To avoid this mistake, we can use ES5's <code>"use strict"</code> on the top of your code, which makes this inside functions "undefined" when not inside a declared object. Therefore when we run these functions we will get an error as we cannot attach a value to undefined. Play around using quokka and the file <a href="./1globalContext.js" target="_blank">1globalContext.js</a>.
+                    </p>
+                </li>
+                <li class="list-group-item allign-middle">
+                    <h3 class="subtitle">Rule 2: OBJECT/IMPLICIT</h3>
+                    <p class="paragraph">
+                        When the keyword "this" is inisde of a declared object.
+                        <br>
+                        <strong>FILE:</strong> <a href="./2implicitObject.js">2implicitObject</a>
+                        <br>
+                        The value of this will always be the closest parent object. In our case, we created a person object and used functions inside it. In those functions "this" will always refer to the parent object "person", which we checked through the functions. It gets tricky once we add nested objects.
+                    </p>
+                    <p class="paragraph">
+                        <strong>Nested objects</strong>
+                        <br>
+                        We will add another object insinde a new person var called "dog". We will copy the functions into this new object. We run the two functions and see that this.firstName is undefined and that this !person as this is referring to properties inside person.dog, the closest parent object. We would need to add a firstName property to get a return other than "undefined", and we would need to change the code to <code>this === person.dog</code> to get a true return.
+                    </p>
+                </li>
+                <li class="list-group-item allign-middle">
+                    <h3 class="subtitle">Rule 3: EXPLICIT BINDING</h3>
+                    <p class="paragraph">
+                        Choose what we want the context of "this" to be using <em>call,apply, or bind</em>
+                        <br>
+                        <strong>FILE:</strong> <a href="./3explicitBinding.js">3explicitBinding</a>
+                        <br>
+                        These 3 methods can only be used by functions, no other data type. 
+                        <table class="table table-bordered table-dark">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Method Name</th>
+                                    <th scope="col">Params</th>
+                                    <th scope="col">Invoke Immediately?</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-primary">
+                                    <td>Call</td>
+                                    <td>thisArg, a, b, c, d, ...</td>
+                                    <td>Yes</td>
+                                </tr>
+                            </tbody>
+                            <tbody>
+                                <tr class="bg-success">
+                                    <td>Apply</td>
+                                    <td>thisArg, [a,b,c,d...]</td>
+                                    <td>Yes</td>
+                                </tr>
+                            </tbody>
+                            <tbody>
+                                <tr class="bg-primary">
+                                    <td>Bind</td>
+                                    <td>thisArg, a, b, c, d, ...</td>
+                                    <td>No</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <strong>Call:</strong> the first parameter "thisArg" is whatever you want the value of "this" to be. It can take an infinite amount of parameters which are the ones you are passing where you want to change the context of "this" in.
+                        <br>
+                        <strong>Apply:</strong> the first parameter "thisArg" works the same as it does in Call. The second argument is an array of arguments we are passing where we want to change the context of "this".
+                        <br>
+                        <strong>Bind:</strong> almost identical to call, but instead of invoking the function immediatley it returns a function definition. 
+                    </p>
+                </li>
+                <li class="list-group-item allign-middle">
+                    <h3 class="subtitle">Using call()</h3>
+                    <p class="paragraph">
+                        We use call in a function to set the context of this.
+                        <br>
+                        <strong>FILE:</strong> <a href="./3explicitBinding.js">3explicitBinding</a>
+                        <br>
+                        We used the person object with the nested dog object. We ran the function that returned undefined because this was referring to the dog object and added call() <code>console.log(person.dog.sayHello.call(person))</code> this returned what we wanted: "Hello Colt". We can do that to any function that uses this and alter the context of this for that function. In the second example we created two objects: colt and elie. Each of them had a sayHi method inside that returned Hi and the this.firstName value inside each object. We removed the method from "elie" but called it using the elie object as context through <code>colt.sayHi.call(elie)</code> which ran the method inside colt using elie as a context and returned "Hi Elie".
+                    </p>
+                </li>
+            </ol>
+
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <!-- <script src="script.js"></script> -->
+</body>
+
+</html>
