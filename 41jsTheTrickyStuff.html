@@ -162,6 +162,36 @@
                         <br>
                         We create a setTimeout() inside the colt.sayHi() that logs our "Hi this.firstName" that sends the log 1000ms after the execution. This is tricky because "this" does not refer to the colt object, it refers to the <em>global object</em> because setTimeout is the function being executed, and its parent object is <em>the global object</em> the context of this is the global object. To solve this we can explicitly set what we want the keyword "this" to refer to.
                     </p>
+                    <p class="paragraph">
+                        <strong>Setting the context of "this"</strong>
+                        <br>
+                        We could use call or apply, however since we want to call this function in a later point in time we don't want to call either of those. Since they invoke immediately, it would defeat the purpose. For our purpose, we use the colt object and modify the sayHi function to execute setTimeout with an internal function that does a console.log() that uses this. This will use the global context for "this" as we saw previously, however we add .bind(this) <code>setTimeiout(function(){}.bind(this),1000)</code> this will set the "this" to a different scope. In our case, since the .bind(this) has the colt object as its parent, it will use the colt object to target "this". We could also use .bind(colt) but having (this) would make it more dynamic.
+                    </p>
+                </li>
+                <li class="list-group-item allign-middle">
+                    <h3 class="subtitle">The "new" Keyword</h3>
+                    <p class="paragraph">
+                        <strong>FILE:</strong> <a href="./7new.js">7new</a>
+                        <br>
+                        The new keyword is a reserved keyword that does a few things. When the "new" keyword is used, a new object is created out of nowhere. The "new" keyword is used with a <em>function</em> and inside of the function definition the keyword "this" refers to the new object being created. When we use "new" an implicit return "this" is added to the function which uses it. 
+                    </p>
+                    <p class="paragraph">
+                        We declare a function called Person() that takes in two arguments (a,b) and uses <code>this.a</code> and <code>this.b</code>. Since they are not in an object you would assume that they refer to the global object, which is true. However, we are calling it to create an object. <code>var oerse = new Person("Oerse","SM")</code> which takes the two arguments and makes them into properties of the var <em>oerse</em>.
+                    </p>
+                    <p class="paragraph">
+                        <h3 class="subtitle">Recap</h3>
+                        "this" is a reserved keyword in JS and its value is determined at execution. It is set using the global context. When set in the global context in a function it refers to the global object (window in a browser). If inside an object, it will always use the closest parent object as context. We can explicitly set the value of "this" using call(), apply(), or bind() (can only be attached to functions). When a function is used with the keyword "new", which creates a new object, this refers to the object that was created. 
+                    </p>
+                </li>
+            </ol>
+            <h2 class="display-4 text-center m-4">Object Oriented Programming<hr></h2>
+            <!-- <p class="text-center mt-3"> <strong>Module Objectives </p></strong> -->
+            <ol class="list-group">
+                <li class="list-group-item align-middle">
+                    <h3 class="subtitle">Introduction</h3>
+                    <p class="paragraph">
+                 
+                    </p>
                 </li>
             </ol>
 
