@@ -188,7 +188,7 @@
             <!-- <p class="text-center mt-3"> <strong>Module Objectives </p></strong> -->
             <ol class="list-group">
                 <li class="list-group-item align-middle">
-                    <h3 class="subtitle">Introduction</h3>
+                    <h3 class="subtitle">Constructors</h3>
                     <p class="paragraph">
                         Object Oriented Programming (OOP) is a programming model based around the idea of objects and blueprints that make objects. These blueprints are called "classes". We call objects created from classes "instances". We strive to make our classes abstract and modular so that we can reuse them easily and share them amongst other parts of the program. *JS did not have "classes" built into it at the time of this video.* To mimic this we use functions and objects. 
                     </p>
@@ -215,7 +215,56 @@
                         So we refactored using call() and we reused the Car constructor in our code. We can use apply() which has the same first argument that sets the this context, but it takes an array as a second argument instead of individual arguments. We just alter the code to <code>Car.apply(this, [make,model,year])</code> which will take the arguments we pass and pass them as an array foru apply(). The final refactor is using the <em><strong>arguments</strong></em> keyword. Arguments takes the arguments of a function and turns them into an array with a couple of more things. Using <code>Car.apply(this, arguments)</code> the constructor will take the arguments and transform them into an array we can pass into the Car.apply() function. Since we are not using the arguments for anything, we can also remove them from our declaration to <code>function MotorcycleAppArg(){</code>. <strong>Note:</strong> all of the functions where called using <code>var varName = new functionName("value1","value2","value3")</code> and then logged with <code>console.log(varName)</code>
                     </p>
                 </li>
+                <li class="list-group-item align-middle">
+                    <h3 class="subtitle">Prototypes</h3>
+                    <p class="paragraph">
+                        <br>
+                        <strong>FILE:</strong> <a href="./10prototypeIntro.js">10prototypeIntro</a>
+                        <br>
+                        The fourth thing the "new" keyword does is create a link "__proto__" between the object created and the prototype property of the constructor function. This is what we will be going over. <strong>Prototype</strong> is a property that <em>EVERY</em> Constructor function has. The prototype property is an <em>object</em>, which can have methods and properties attached to it.If properties or methods are placed inside the prototype object, they can be accessible from any object created from that constructor function. The prototype object has a property on it called constructor that points back to the original constructor function. When the objects are created using "new" they have a property called "__proto__" that connects them to the prototype property of the constructor function: <code>oerse.__proto__===Person.prototype //true</code>. We check all of this in our file <a href="./10prototypeIntro.js">10prototypeIntro</a>.
+                    </p>
+                </li>
+                <li class="list-group-item align-middle">
+                    <h3 class="subtitle">Prototype Chain</h3>
+                    <p class="paragraph">
+                        <br>
+                        <strong>FILE:</strong> <a href="./11protoChain.js">11protoChain</a>
+                        <br>
+                        The prototype property is an object that can have methods and properties placed on it and are shared and accessible by ANY object created using that constructor function through the property "__proto__" (dunder proto). EVERY object in JS has the <em>__proto__</em> When you invoke a proerty/function on an object, JS will check first inside that object to see if it exists directly inside that object. If it doesn't find it it will move into the "__proto__" property of that object and look for it there. If it doesn't it will keep going down until it reaches the __proto__ of the Object.prototype which is "null", ending the chain. We created a constructor and added a method to it's prototype <code>Object.prototype.method=true</code>. We then created two objects using that same constructor and logged newObject.method() and got true on both, even though they are different objects. That is because the method is inside the Object.prototype, and this is linked to our newObject through newObject.__proto__. <strong>NOTE:</strong> This only works when we create objects with a constructor using the "new" keyword, which assigns the "__proto__" value.
+                    </p>
+                    <p class="paragraph">
+                        <strong>Array example</strong>
+                        <br>
+                        When we do <code>var arr = []</code> it creates an array. Behind doors what actually happens is <code>var array = new Array</code>, which creates an array object. arr is connected to Array.prototype via the __proto__. Array.prototype has a __proto__ that points to Object.prototype, which ends the chain with a __proto__ = null. We have access to the Array constructor function through Array.prototype.constructor. Therefore in an array we have access to the methods of Array and Object through the __proto__ chain. I did some further tests with this on the file. 
+                    </p>
+                    <p class="paragraph">
+                        <h3 class="subtitle">Refactoring</h3>
+                        <p class="paragraph">
+                            <strong>FILE:</strong> <a href="./12protoRefactor.js">12protoRefactor.js</a>
+                        <br>
+                        We create a constructor with a property and a method. This is all well and good as we have access to the method directly inside the object we create. However, when we do this 100,000 times, we would have declared that functon 100,000 times. We can refactor and move that method into the prototype via <code>ObjectName.prototype.methodName = function(){}</code>. Instead of having <code>ObjectName.methodName()</code> we have access to methodName via <code>ObjectName.__proto__.methodName()</code>. However we can access it with the same code <code>ObjectName.methodName()</code> as JS will look for that method in the object, and when it doesn't find it, it will go into the "__proto__" property and look for it there, where it will find it. This way we just declared the function once. This is good practice. 
+                        </p>
+                    </p>
+                    <p class="paragraph">
+                        <strong>FILE:</strong> <a href="./13oopExercise.js">13oopExercise</a>
+                        <br>
+                        We need to create a constructor for Vehicle with make,model, and year properties. Each object should have a property isRunning set to false. Every object should also have a method called turnOn, which changes isRunning property to true. Every object created from the Vehicle constructor should have a method called turnOff, which changes isRunning to false. Every object created from the Vehicle constructor should have a method called honk, which returns the string "beep" ONLY if the isRunning property is true. 
+                        <br>
+                        <strong>My execution</strong> I did a working version with a refactor to prototype. However I used more logic because I neglected the turnOff method and did everything with turnOn as a turn on/off thing depending on the status. It was much easier without this as we would just redefine the variable without having to use an if statement. However it was nice practice. One problem I did have was not using return on the turnOn() method. The other one was using === to convert the variable, as that compares, one = changes the value. Refactoring was easy.
+                    </p>
+                </li>
+                <li class="list-group-item align-middle">
+                    <h3 class="subtitle">Closures</h3>
+                    <p class="paragraph">
+                        A closure is a function that makes the use of variables defined in outer functions that have previously returned.
+                        <br>
+                        <strong>FILE:</strong> <a href="./14closure.js">14closure.js</a>
+                        <br>
+                        They exist when we have an inner function that makes use of variables declared in an outer function which has previously returned. Variables declared inside these functions are not accessible and allow us to create different instances of the same function. Look at the file for examples of this. *This is less relevant now with the use of let and const, as well as promises, async/await. Also in general there is a class option now that has a lot of benefits over the classic constructor method.*
+                    </p>
+                </li>
             </ol>
+            
 
     </div>
 
